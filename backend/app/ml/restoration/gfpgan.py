@@ -64,9 +64,19 @@ class GFPGANRestorer:
         output_path = image_path.with_name(image_path.stem + "_restored.png")
         
         if self._restorer is None:
-            # Fallback if model failed to load
+            # Fallback if model failed to load - return a sensible default
             output_path.write_bytes(image_path.read_bytes())
-            return output_path, RestorationAttributes()
+            return output_path, RestorationAttributes(
+                damage_type="unrestored",
+                damage_extent=1.0,
+                age=None,
+                gender="unknown",
+                ethnicity="unknown",
+                skin_tone="unknown",
+                hair_color="unknown",
+                eye_color="unknown",
+                tattoo_markers=[],
+            )
 
         try:
             img = cv2.imread(str(image_path), cv2.IMREAD_COLOR)
@@ -101,5 +111,15 @@ class GFPGANRestorer:
         except Exception as e:
             print(f"Restoration failed: {e}")
             output_path.write_bytes(image_path.read_bytes())
-            return output_path, RestorationAttributes()
+            return output_path, RestorationAttributes(
+                damage_type="error",
+                damage_extent=1.0,
+                age=None,
+                gender="unknown",
+                ethnicity="unknown",
+                skin_tone="unknown",
+                hair_color="unknown",
+                eye_color="unknown",
+                tattoo_markers=[],
+            )
 
