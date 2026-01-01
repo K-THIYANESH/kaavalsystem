@@ -10,17 +10,16 @@ from pydantic import BaseModel, Field
 
 class AttributeFilters(BaseModel):
     """Attributes to prioritize when narrowing the search space."""
-
-    age_min: Optional[int]
-    age_max: Optional[int]
-    gender: Optional[str]
-    ethnicity: Optional[str]
-    skin_tone: Optional[str]
-    hair_color: Optional[str]
-    eye_color: Optional[str]
+    age_min: Optional[int] = None
+    age_max: Optional[int] = None
+    gender: Optional[str] = None
+    ethnicity: Optional[str] = None
+    skin_tone: Optional[str] = None
+    hair_color: Optional[str] = None
+    eye_color: Optional[str] = None
     tattoo_keywords: List[str] = Field(default_factory=list)
     scar_keywords: List[str] = Field(default_factory=list)
-    specialist_model_override: Optional[str]
+    specialist_model_override: Optional[str] = None
 
 
 class DatabaseSearchRequest(BaseModel):
