@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+backend/logs/
+backend/reports/
+.embeddings_output/
+.env
+.env.*
+.DS_Store
+*.pth
+*.pt
+*.onnx
+data/

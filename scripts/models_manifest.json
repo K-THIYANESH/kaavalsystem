@@ -1,0 +1,50 @@
+{
+  {
+    "models": [
+      {
+        "name": "retinaface.onnx",
+        "urls": [
+          "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
+        ],
+        "sha256": ""
+      },
+      {
+        "name": "arcface_resnet100.onnx",
+        "urls": [
+          "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
+        ],
+        "sha256": ""
+      },
+      {
+        "name": "attribute_net.onnx",
+        "urls": [
+          "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
+        ],
+        "sha256": ""
+      },
+      {
+        "name": "gfpgan.pth",
+        "urls": [
+          "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth"
+        ],
+        "sha256": ""
+      },
+      {
+        "name": "stylegan2_age.pt",
+        "urls": [
+          "https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/ffhq.pkl"
+        ],
+        "sha256": "",
+        "optional": true
+      }
+      ,
+      {
+        "name": "psp_encoder.pth",
+        "urls": [
+          ""
+        ],
+        "sha256": "",
+        "optional": true
+      }
+    ]
+  }

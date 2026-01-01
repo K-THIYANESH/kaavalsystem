@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAAVAL - AI-Powered Facial Recognition System</title>
+  <meta name="theme-color" content="#0a0e1a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body>
+  <script>
+    // Global API configuration - used by all scripts
+    window.KAAVAL_API_BASE = "http://localhost:8000/api"; // Use localhost to match frontend origin
+    window.API_BASE = window.KAAVAL_API_BASE; // Also set API_BASE for compatibility
+  </script>
+  <script src="scripts/matrix-bg.js" defer></script>
+
+  <!-- Hacker-style Background Effects -->
+  <div class="hacker-bg">
+    <canvas id="matrix-canvas"></canvas>
+    <div class="scan-lines"></div>
+    <div class="glitch-overlay"></div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="logo-text">KAAVAL</div>
+        <div class="loader-bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <p class="loader-text">Initializing Neural Network...</p>
+      <div class="loader-progress">
+        <div class="loader-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">KAAVAL</span>
+        <span class="brand-pulse"></span>
+      </div>
+      <div class="nav-links">
+        <a href="#live-camera" class="nav-link">
+          <span>Live Detection</span>
+        </a>
+        <a href="#video-analysis" class="nav-link">
+          <span>Video Analysis</span>
+          <div class="nav-indicator"></div>
+        </a>
+        <a href="#face-restoration" class="nav-link">
+          <span>Restoration</span>
+          <div class="nav-indicator"></div>
+        </a>
+        <a href="#database-search" class="nav-link">
+          <span>Database</span>
+          <div class="nav-indicator"></div>
+        </a>
+      </div>
+      <div class="nav-actions">
+        <button class="assistant-btn" id="assistant-toggle" title="AI Assistant">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            <path d="M13 8H7" />
+            <path d="M17 12H7" />
+          </svg>
+          <span>AI Assistant</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-glitch" data-text="KAAVAL">KAAVAL</div>
+      <h1 class="hero-title">
+        <span class="title-line typing">Advanced Facial</span>
+        <span class="title-line accent typing-delay">Recognition System</span>
+      </h1>
+      <p class="hero-subtitle">AI-powered intelligence for real-time detection, video analysis, and forensic
+        reconstruction</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value" data-target="99.2">0%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" data-target="7">&lt;0s</div>
+          <div class="stat-label">Response Time</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" data-target="500">0K+</div>
+          <div class="stat-label">Database Records</div>
+        </div>
+      </div>
+      <div class="hero-ctas" role="region" aria-label="Hero actions">
+        <a href="#live-camera" class="btn btn-primary" id="hero-live-cta">Start Live Detection</a>
+        <a href="#video-analysis" class="btn btn-secondary" id="hero-video-cta">Analyze Video</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content - 2x3 Grid Layout with Metrics -->
+  <main class="main-content">
+    <!-- Performance Metrics Dashboard (2x3 Grid) -->
+
+
+    <div class="modules-grid">
+      <!-- Row 1: Live Camera & Video Analysis -->
+      <section id="live-camera" class="module-section">
+        <div class="module-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <div class="card-icon">📹</div>
+              <div class="icon-pulse"></div>
+            </div>
+            <div class="card-badge live">
+              <span class="pulse-dot"></span>
+              LIVE
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Live Camera Detection</h3>
+            <p class="card-description">Real-time facial recognition from camera feeds with instant matching and alerts
+            </p>
+
+            <div class="video-container">
+              <div class="video-feed" id="live-feed-placeholder">
+                <div class="video-placeholder">
+                  <div class="scan-animation"></div>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="M10 8l6 4-6 4V8z" />
+                  </svg>
+                  <p>Camera feed will appear here</p>
+                </div>
+              </div>
+              <div class="video-overlay">
+                <div class="overlay-stat">
+                  <span class="stat-label">Status</span>
+                  <span class="stat-value" id="camera-status-text">Idle</span>
+                </div>
+                <div class="overlay-stat">
+                  <span class="stat-label">FPS</span>
+                  <span class="stat-value">30</span>
+                </div>
+                <div class="overlay-stat">
+                  <span class="stat-label">Matches</span>
+                  <span class="stat-value">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-controls">
+              <button class="btn btn-primary" id="start-camera">
+                <span>Start Stream</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+              </button>
+              <button class="btn btn-secondary" id="stop-camera">
+                <span>Stop Stream</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="6" width="12" height="12" />
+                </svg>
+              </button>
+            </div>
+            <div class="status-message" id="camera-status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="video-analysis" class="module-section">
+        <div class="module-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <div class="card-icon">🎥</div>
+              <div class="icon-pulse"></div>
+            </div>
+            <div class="card-badge">ANALYSIS</div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Video Analysis</h3>
+            <p class="card-description">Search for individuals in video footage with precise timestamp detection</p>
+
+            <div class="upload-section">
+              <div class="upload-grid">
+                <div class="upload-box" id="image-upload-box">
+                  <input type="file" id="reference-image-upload" accept="image/*" hidden>
+                  <label for="reference-image-upload" class="upload-label">
+                    <div class="upload-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                      </svg>
+                    </div>
+                    <span class="upload-text">Reference Image</span>
+                    <span class="upload-hint">Click to upload</span>
+                  </label>
+                  <div id="reference-image-preview" class="image-preview"></div>
+                </div>
+
+                <div class="upload-box" id="video-upload-box">
+                  <input type="file" id="video-upload" accept="video/*" hidden>
+                  <label for="video-upload" class="upload-label">
+                    <div class="upload-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <polygon points="23 7 16 12 23 17 23 7" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                      </svg>
+                    </div>
+                    <span class="upload-text">Video File</span>
+                    <span class="upload-hint">MP4, MOV, AVI</span>
+                  </label>
+                  <div id="video-file-preview" class="file-preview"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="progress-section" id="video-progress-section" style="display: none;">
+              <div class="progress-header">
+                <span>Processing Video</span>
+                <span class="progress-percent" id="video-progress-percent">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="video-progress-fill"></div>
+                <div class="progress-shine"></div>
+              </div>
+              <div class="progress-time" id="video-counter">00:00 / 00:00</div>
+            </div>
+
+            <div class="results-section" id="video-results-container" style="display: none;">
+              <h3 class="results-title">Detection Results</h3>
+              <div class="timeline-container" id="timeline-visual"></div>
+              <div class="detection-grid" id="detection-grid"></div>
+            </div>
+
+            <div class="card-controls">
+              <button class="btn btn-primary" id="btn-video-analyze" disabled>
+                <span>Analyze Video</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polygon points="10 8 16 12 10 16 10 8" />
+                </svg>
+              </button>
+              <button class="btn btn-secondary" id="btn-video-download" disabled>
+                <span>Export Results</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+            </div>
+            <div class="status-message" id="video-status"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Row 2: Face Restoration & Database Search -->
+      <section id="face-restoration" class="module-section">
+        <div class="module-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <div class="card-icon">🔧</div>
+              <div class="icon-pulse"></div>
+            </div>
+            <div class="card-badge">RESTORATION</div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Face Restoration</h3>
+            <p class="card-description">Reconstruct damaged or degraded facial images using advanced AI technology</p>
+
+            <div class="upload-section">
+              <div class="upload-box-large" id="forensic-upload-box">
+                <input type="file" id="forensic-upload" accept="image/*" hidden>
+                <label for="forensic-upload" class="upload-label-large">
+                  <div class="upload-icon-large">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.5">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                  </div>
+                  <span class="upload-text-large">Drop image here or click to browse</span>
+                  <span class="upload-hint-large">Supports JPG, PNG, WEBP</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="restoration-preview" id="restoration-preview" style="display: none;">
+              <div class="before-after-container">
+                <div class="comparison-item">
+                  <div class="comparison-label">Original</div>
+                  <div class="comparison-image" id="evidence-before"></div>
+                </div>
+                <div class="comparison-arrow">→</div>
+                <div class="comparison-item">
+                  <div class="comparison-label">Restored</div>
+                  <div class="comparison-image" id="evidence-after"></div>
+                </div>
+              </div>
+
+              <div class="age-progression-section">
+                <h4 class="age-progression-title">Age Progression</h4>
+                <div class="age-progression-grid" id="age-progression-gallery"></div>
+              </div>
+            </div>
+
+            <div class="card-controls">
+              <button class="btn btn-primary" id="btn-download-reconstruction" disabled>
+                <span>Download</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+              <button class="btn btn-secondary" id="btn-age-progress" disabled>
+                <span>Age Progression</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </button>
+              <button class="btn btn-secondary" id="btn-forward-database" disabled>
+                <span>Search Database</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                </svg>
+              </button>
+            </div>
+            <div class="status-message" id="image-status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="database-search" class="module-section">
+        <div class="module-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <div class="card-icon">🔍</div>
+              <div class="icon-pulse"></div>
+            </div>
+            <div class="card-badge">SEARCH</div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Database Search</h3>
+            <p class="card-description">Advanced search through facial recognition database with attribute filtering</p>
+
+            <form class="search-form" id="database-search-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="age-range">Age Range</label>
+                  <select id="age-range" class="form-select">
+                    <option value="">Auto-detect</option>
+                    <option value="0-12">Child (0-12)</option>
+                    <option value="13-19">Teen (13-19)</option>
+                    <option value="20-35">Young Adult (20-35)</option>
+                    <option value="36-55">Adult (36-55)</option>
+                    <option value="56+">Senior (56+)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select id="gender" class="form-select">
+                    <option value="">Auto-detect</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="skin-tone">Skin Tone</label>
+                  <select id="skin-tone" class="form-select">
+                    <option value="">Auto-detect</option>
+                    <option value="fair">Fair</option>
+                    <option value="medium">Medium</option>
+                    <option value="olive">Olive</option>
+                    <option value="warm">Warm</option>
+                    <option value="deep">Deep</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="hair">Hair Color</label>
+                  <select id="hair" class="form-select">
+                    <option value="">Auto-detect</option>
+                    <option value="black">Black</option>
+                    <option value="brown">Brown</option>
+                    <option value="blonde">Blonde</option>
+                    <option value="red">Red</option>
+                    <option value="gray">Gray</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <span>Search Database</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+
+            <div class="search-results" id="database-results">
+              <div class="results-placeholder">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                </svg>
+                <p>Search results will appear here</p>
+              </div>
+            </div>
+
+            <div class="status-message" id="database-status"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section id="metrics-dashboard" class="metrics-section">
+      <div class="section-header">
+        <div class="section-number">00</div>
+        <div class="section-title-group">
+          <h2 class="section-title">System Performance & Analytics</h2>
+          <p class="section-description">Real-time AI system efficiency metrics and result analysis</p>
+        </div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-value" id="metric-latency">0 ms</div>
+          <div class="metric-label">Avg Processing Latency</div>
+          <div class="metric-trend" id="metric-latency-trend">↓ 12%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-value" id="metric-accuracy">99.2%</div>
+          <div class="metric-label">Recognition Accuracy</div>
+          <div class="metric-trend" id="metric-accuracy-trend">↑ 0.3%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🔍</div>
+          <div class="metric-value" id="metric-reduction">-85%</div>
+          <div class="metric-label">Search Space Reduction</div>
+          <div class="metric-trend" id="metric-reduction-trend">↑ 5%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📊</div>
+          <div class="metric-value" id="metric-throughput">0</div>
+          <div class="metric-label">Active Processing Jobs</div>
+          <div class="metric-trend" id="metric-throughput-trend">Live</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">💾</div>
+          <div class="metric-value" id="metric-database">0</div>
+          <div class="metric-label">Database Records</div>
+          <div class="metric-trend" id="metric-database-trend">+12 today</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🔧</div>
+          <div class="metric-value" id="metric-restored">0</div>
+          <div class="metric-label">Faces Restored Today</div>
+          <div class="metric-trend" id="metric-restored-trend">+3 today</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">KAAVAL</span>
+      </div>
+      <p class="footer-text">Advanced AI-powered facial recognition system for security and identification</p>
+      <div class="footer-links">
+        <a href="#live-camera">Live Detection</a>
+        <a href="#video-analysis">Video Analysis</a>
+        <a href="#face-restoration">Restoration</a>
+        <a href="#database-search">Database</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js" defer></script>
+  <script src="scripts/chatbot.js" defer></script>
+</body>
+
+</html>

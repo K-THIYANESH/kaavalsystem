@@ -1,0 +1,100 @@
+{
+  "extraction_timestamp": "2025-11-25T21:46:13.713892",
+  "total_persons": 15,
+  "total_images": 318,
+  "total_successful": 252,
+  "total_failed": 66,
+  "success_rate": "79.2%",
+  "persons": [
+    {
+      "name": "Darshina",
+      "successful": 16,
+      "failed": 2,
+      "total": 18
+    },
+    {
+      "name": "Govendhan",
+      "successful": 6,
+      "failed": 6,
+      "total": 12
+    },
+    {
+      "name": "Jansi",
+      "successful": 10,
+      "failed": 4,
+      "total": 14
+    },
+    {
+      "name": "Kiran",
+      "successful": 16,
+      "failed": 6,
+      "total": 22
+    },
+    {
+      "name": "Krithika",
+      "successful": 20,
+      "failed": 4,
+      "total": 24
+    },
+    {
+      "name": "Lachu",
+      "successful": 52,
+      "failed": 4,
+      "total": 56
+    },
+    {
+      "name": "Mithiga",
+      "successful": 12,
+      "failed": 6,
+      "total": 18
+    },
+    {
+      "name": "Pavya",
+      "successful": 12,
+      "failed": 4,
+      "total": 16
+    },
+    {
+      "name": "Shajeer",
+      "successful": 8,
+      "failed": 12,
+      "total": 20
+    },
+    {
+      "name": "Sharuk",
+      "successful": 14,
+      "failed": 6,
+      "total": 20
+    },
+    {
+      "name": "Subhavi",
+      "successful": 22,
+      "failed": 0,
+      "total": 22
+    },
+    {
+      "name": "Supritha",
+      "successful": 22,
+      "failed": 0,
+      "total": 22
+    },
+    {
+      "name": "Thanishka",
+      "successful": 22,
+      "failed": 0,
+      "total": 22
+    },
+    {
+      "name": "Thiyanesh",
+      "successful": 8,
+      "failed": 6,
+      "total": 14
+    },
+    {
+      "name": "Vimal",
+      "successful": 12,
+      "failed": 6,
+      "total": 18
+    }
+  ]
+}

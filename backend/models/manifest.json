@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "name": "RetinaFace-MobileNet",
+    "version": "1.0.0",
+    "weights": "models/retinaface.onnx",
+    "input_size": [
+      640,
+      640
+    ],
+    "sha256": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb"
+  },
+  "recognizer": {
+    "name": "ArcFace-ResNet100",
+    "version": "1.0.0",
+    "weights": "models/arcface_resnet100.onnx",
+    "embedding_dim": 512,
+    "sha256": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb"
+  },
+  "attribute": {
+    "name": "KAAVAL-AttributeNet",
+    "version": "0.9.1",
+    "weights": "models/attribute_net.onnx",
+    "sha256": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb"
+  },
+  "restorer": {
+    "name": "GFPGANv1.4",
+    "weights": "models/gfpgan.pth",
+    "sha256": "e2cd4703ab14f4d01fd1383a8a8b266f9a5833dacee8e6a79d3bf21a1b6be5ad"
+  },
+  "age_progression": {
+    "name": "StyleGAN2-Age",
+    "weights": "models/stylegan2_age.pt",
+    "sha256": "a205a346e86a9ddaae702e118097d014b7b8bd719491396a162cca438f2f524c"
+  }
+}
